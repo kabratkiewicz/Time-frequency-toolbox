@@ -22,8 +22,6 @@ threshold = -50;
 method = 'FFT';
 T = length(signal);
 
-clear x;
-
 x.signal = signal(:);
 x.fs = fs;
 x.N = length(signal);
