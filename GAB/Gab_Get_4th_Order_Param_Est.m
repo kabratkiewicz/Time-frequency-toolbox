@@ -98,11 +98,11 @@ for n = 1:x.N
             hat_v3 = -Cm(1);
             hat_v2 = -2*hat_v3 * tau  - Cm(2);
             hat_v1 = -3*hat_v3*tau^2 - 2*hat_v2*tau - Cm(3);
-            %hat_v0 = -hat_v3 * tau^3 - hat_v2*tau^2 - hat_v1*tau - Cm(4);
+            hat_v0 = -hat_v3 * tau^3 - hat_v2*tau^2 - hat_v1*tau - Cm(4);
             gamma(m,n) = imag(hat_v3)/2/pi;
             beta(m,n) = imag(hat_v2)/2/pi;
             alpha(m,n) = imag(hat_v1)/2/pi;
-            %iFreq(m,n) = m+round(N_FFT*imag(hat_v0)/2/pi);
+            iFreq(m,n) = m+round(N_FFT*imag(hat_v0)/2/pi);
 
         end
     end
