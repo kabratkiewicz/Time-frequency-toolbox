@@ -64,8 +64,8 @@ elseif strcmp(method, 'FFT')
     n_bins = 1:x.N;
     for n = 1:x.N
         tmp = signal(n_bins(n):n_bins(n)+K-1);
-        S(:,n)   = exp(1i * pi * phase_shift) .* fftshift(fft(tmp .* w,  N_FFT))./N_FFT;
-        SdW(:,n) = exp(1i * pi * phase_shift) .* fftshift(fft(tmp .* dw, N_FFT))./N_FFT;
+        S(:,n)   = exp(1i * pi * phase_shift) .* fftshift(fft(tmp .* w,  N_FFT));
+        SdW(:,n) = exp(1i * pi * phase_shift) .* fftshift(fft(tmp .* dw, N_FFT));
     end
 else
     error('Wrong transform method. Available methods ptByPt or FFT');
@@ -73,3 +73,4 @@ end
 IFreq =   mm - round(N_FFT.*imag(SdW./S)./2/pi); 
 
 end
+
