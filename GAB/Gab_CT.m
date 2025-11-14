@@ -51,7 +51,7 @@ if strcmp(method, 'ptByPt')
             S(m,n) = exp(A * f_points(m) * (n-1)) * sum(signal(n+k) .* w .* exp(A .* f_points(m) .* k));
         end
     end
-elseif strcmp(method, 'FFT') % nietestowane!
+elseif strcmp(method, 'FFT') 
  K = N_FFT;
     k = -K/2:K/2-1;
      
@@ -70,4 +70,5 @@ end
 
 
 end
+
 
