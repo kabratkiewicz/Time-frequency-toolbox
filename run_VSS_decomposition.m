@@ -29,6 +29,7 @@ CR_win = 0;
 threshold = -50;
 method = 'FFT';
 T = length(signal);
+M = 11; % mask size - number of frequency bins
 
 x.signal = signal(:);
 x.fs = fs;
@@ -54,8 +55,8 @@ ridges = tfridge(VSS3,1:N_FFT,'NumRidges',2);
 mask1 = zeros(size(VSS3));
 mask2 = zeros(size(VSS3));
 for i = 1:1:x.N
-    mask1(ridges(i,1)-5:ridges(i,1)+5,i) = 1;
-    mask2(ridges(i,2)-5:ridges(i,2)+5,i) = 1;
+    mask1(ridges(i,1)-floor(M/2):ridges(i,1)+floor(M/2),i) = 1;
+    mask2(ridges(i,2)-floor(M/2):ridges(i,2)+floor(M/2),i) = 1;
 end
 x_rec_x1 = Gab_ISSTFT(S.*mask1, sigma, N_FFT);
 x_rec_x2 = Gab_ISSTFT(S.*mask2, sigma, N_FFT);
@@ -68,3 +69,4 @@ Plot_Energy(S, threshold, 0, t_scale, f_scale, fontsize, 1);
 x.signal = x_rec_x2;
 S = Gab_STFT(x, N_FFT, sigma, 0, method);
 Plot_Energy(S, threshold, 0, t_scale, f_scale, fontsize, 1);
+
