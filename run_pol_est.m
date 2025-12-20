@@ -1,5 +1,5 @@
-%%  Author: Karol Abratkewicz
-%   e-mail: karol.abratkiewicz@pw.edu.pl
+%%  Author: Karol Abratkewicz & Bartosz Falęcki
+%   e-mail: karol.abratkiewicz@pw.edu.pl, bartosz.falecki@pw.edu.pl
 %   related paper: K. Abratkiewicz, B. Falęcki, A. Burzyńska, M. Pożoga, H. Rothkaehl
 %   "On the Influence of Ionospheric-Induced Polarization Distortion on
 %   Over-the-Horizon Waves" IEEE Antennas and Wireless Propagation Letters
@@ -10,7 +10,6 @@ clc
 
 addpath("GAB\")
 addpath("UTILS\")
-load("colormap_BR.mat")
 
 NFFT = 512;
 
@@ -25,15 +24,30 @@ Init_Env(fontsize, img_max_size);
 N = 1024;
 t = linspace(0,1,N);
 
-phi1 = -700 * pi .* t + 700 * pi .* t.^2;
-a1 = 1;
-xH = a1 .* exp(1i * phi1);
-xH = awgn(xH, 50, "measured");
+% Synthetic circular component 1
+a1 = 1; % Amplitude
+phi1H = -700 * pi .* t + 700 * pi .* t.^2; % Phase of horizontal polarization
+phi1V = -700 * pi .* t + 700 * pi .* t.^2 + pi/2; % Phase of vertical polarization
+x1H = a1.*exp(1i * phi1H); % Horizontal polarization signal (H)
+x1H = awgn(x1H, 50, "measured"); % Added Gaussian noise
+x1V = a1.*exp(1i * phi1V); % Vertical polarization signal (V)
+x1V = awgn(x1V, 50, "measured");
+x1 = x1H + x1V;
 
-phi2 = -700 * pi .* t + 700 * pi .* t.^2 + (5 .*t * pi);
-a2 = 1;
-xV = a2 .* exp(1i * phi2);
-xV = awgn(xV, 50, "measured");
+% Synthetic circular component 2 (opposite handedness)
+a2 = 0.5; % Artificial ellipticity introduced
+deltaPhi = 5*pi*t; % Phase velocity drift - artificial polarization rotation along chirp
+phi2H = -700 * pi .* t + 700 * pi .* t.^2 + pi/2 + deltaPhi; % Circular rotation in opposite direction
+phi2V = -700 * pi .* t + 700 * pi .* t.^2 + deltaPhi;
+x2H = a2.*exp(1i * phi2H);
+x2H = awgn(x2H, 50, "measured");
+x2V = a2.*exp(1i * phi2V);
+x2V = awgn(x2V, 50, "measured");
+x2 = x2H + x2V;
+
+% Separately received H and V channels
+xH = x1H + x2H; % x1H and x2H superposition
+xV = x1V + x2V; % x1V and x2V superposition
 
 x.signal = xH;
 x.N = length(xH);
@@ -72,7 +86,7 @@ im=imagesc(t_scale, f_scale, S1n);
 set(gca,'ydir','normal')
 xlabel('t [s]','FontSize',fontsize, 'interpreter','latex')
 ylabel('f [kHz]','FontSize',fontsize, 'interpreter','latex')
-colormap(cmap)
+colormap('turbo')
 col=colorbar;
 col.Label.Interpreter = 'latex';
 col.TickLabelInterpreter = 'latex';
@@ -85,7 +99,7 @@ im=imagesc(t_scale, f_scale, S2n);
 set(gca,'ydir','normal')
 xlabel('t [s]','FontSize',fontsize, 'interpreter','latex')
 ylabel('f [kHz]','FontSize',fontsize, 'interpreter','latex')
-colormap(cmap)
+colormap('turbo')
 col=colorbar;
 col.Label.Interpreter = 'latex';
 col.TickLabelInterpreter = 'latex';
@@ -98,10 +112,15 @@ im=imagesc(t_scale, f_scale,S3n);
 set(gca,'ydir','normal')
 xlabel('t [s]','FontSize',fontsize, 'interpreter','latex')
 ylabel('f [kHz]','FontSize',fontsize, 'interpreter','latex')
-colormap(cmap)
+colormap('turbo')
 col=colorbar;
 col.Label.Interpreter = 'latex';
 col.TickLabelInterpreter = 'latex';
 col.Label.String = '$S_3$';
 im.AlphaData = q;
 clim([-1 1])
+
+
+
+
+
