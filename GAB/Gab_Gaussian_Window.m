@@ -1,7 +1,7 @@
 function w = Gab_Gaussian_Window(k, sigma, d_order, t_order, CR)
 %% Input args:
 % k - time samples of the window
-% sigma - standard deviation of the Gaussian window
+% sigma - time spread of the Gaussian window
 % d_order - window derivative order
 % t_order - time ramp order
 % CR - chirp rate of the window
@@ -72,5 +72,6 @@ w = w(:);
 
 
 end
+
 
 
