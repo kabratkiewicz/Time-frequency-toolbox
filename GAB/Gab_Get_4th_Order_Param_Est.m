@@ -96,7 +96,7 @@ for n = 1:x.N
 
             Cm = Am \ Bm;
             hat_v3 = -Cm(1);
-            hat_v2 = -2*hat_v3 * tau  - Cm(2);
+            hat_v2 = -3*hat_v3 * tau  - Cm(2);
             hat_v1 = -3*hat_v3*tau^2 - 2*hat_v2*tau - Cm(3);
             hat_v0 = -hat_v3 * tau^3 - hat_v2*tau^2 - hat_v1*tau - Cm(4);
             gamma(m,n) = imag(hat_v3)/2/pi;
@@ -109,4 +109,5 @@ for n = 1:x.N
 end
 
 end
+
 
