@@ -2,7 +2,7 @@
 %   e-mail: karol.abratkiewicz@pw.edu.pl
 %   related paper: K. Abratkiewicz, B. Falęcki, A. Burzyńska, M. Pożoga, H. Rothkaehl
 %   "On the Influence of Ionospheric-Induced Polarization Distortion on
-%   Over-the-Horizon Waves" IEEE Antennas and Wireless Propagation Letters
+%   Over-the-Horizon Waves" International Radar Symposium 2026
 
 close all
 clear
@@ -105,3 +105,4 @@ col.TickLabelInterpreter = 'latex';
 col.Label.String = '$S_3$';
 im.AlphaData = q;
 clim([-1 1])
+
